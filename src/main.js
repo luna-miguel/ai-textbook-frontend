@@ -123,10 +123,6 @@ function App() {
   }, [mode, questions, score]);
 
   function generateCards() {
-    if (!processedText) {
-      alert("No text content available. Please upload a file first.");
-      return;
-    }
     doneLoadingText(true);
     setLoadingInference(true);
     fetch('https://ai-textbook-server.onrender.com/generate_cards', {
@@ -156,10 +152,6 @@ function App() {
   }
 
   function generateQuiz() {
-    if (!processedText) {
-      alert("No text content available. Please upload a file first.");
-      return;
-    }
     setLoadingInference(true);
     fetch('https://ai-textbook-server.onrender.com/generate_quiz', {
       method: "POST",
@@ -278,6 +270,7 @@ function App() {
                     const data = JSON.parse(response);
                     if (data.text) {
                       setProcessedText(data.text);
+                      console.log(processedText)
                       generateCards();
                     } else {
                       alert("Error processing file. Please try again.");
