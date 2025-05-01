@@ -55,6 +55,7 @@ function App() {
   const [showQuestion, setShowQuestion] = useState(false);
   const [showCongrats, setShowCongrats] = useState(false);
   const [showButtons, setShowButtons] = useState(false);
+  const [processedText, setProcessedText] = useState(null);
 
   const handleRadioChange = (event) => {
     setSelectedValue(false);
@@ -122,23 +123,67 @@ function App() {
   }, [mode, questions, score]);
 
   function generateCards() {
+    if (!processedText) {
+      alert("No text content available. Please upload a file first.");
+      return;
+    }
     doneLoadingText(true);
     setLoadingInference(true);
-    fetch('https://ai-textbook-server.onrender.com/generate_cards', { method: "POST" })
+    fetch('https://ai-textbook-server.onrender.com/generate_cards', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ text: processedText })
+    })
       .then(res => res.json())
       .then(data => {
-        if ("error" in data) { setLoadingInference(false); alert("An error occurred. Please try again."); window.location.reload(); }
-        else { setCards(data); setLoadingInference(false); }
+        if ("error" in data) { 
+          setLoadingInference(false); 
+          alert("An error occurred. Please try again."); 
+          window.location.reload(); 
+        }
+        else { 
+          setCards(data); 
+          setLoadingInference(false); 
+        }
+      })
+      .catch(error => {
+        setLoadingInference(false);
+        alert("An error occurred. Please try again.");
+        console.error('Error:', error);
       });
   }
 
   function generateQuiz() {
+    if (!processedText) {
+      alert("No text content available. Please upload a file first.");
+      return;
+    }
     setLoadingInference(true);
-    fetch('https://ai-textbook-server.onrender.com/generate_quiz', { method: "POST" })
+    fetch('https://ai-textbook-server.onrender.com/generate_quiz', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ text: processedText })
+    })
       .then(res => res.json())
       .then(data => {
-        if ("error" in data) { setLoadingInference(false); alert("An error occurred. Please try again."); window.location.reload(); }
-        else { setQuiz(data); setLoadingInference(false); }
+        if ("error" in data) { 
+          setLoadingInference(false); 
+          alert("An error occurred. Please try again."); 
+          window.location.reload(); 
+        }
+        else { 
+          setQuiz(data); 
+          setLoadingInference(false); 
+        }
+      })
+      .catch(error => {
+        setLoadingInference(false);
+        alert("An error occurred. Please try again.");
+        console.error('Error:', error);
       });
     setShowQuestion(true);
     setMode(1);
@@ -219,7 +264,35 @@ function App() {
           <div id="title">{"Skip the textbook.".split("").map((el, i) => (<motion.span id="title-letter" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.25, delay: i / 10 }} key={i}>{el}</motion.span>))}</div>
           <motion.div id="input-anim" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <p className="subtitle">Upload your text document, and get access to AI-generated study tools, including flashcards and quizzes.</p>
-            <FilePond files={file} allowMultiple name="file" onupdatefiles={fileItems => setFile(fileItems)} server={{ url: '/upload' }} onprocessfiles={() => generateCards()} acceptedFileTypes={['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain']} labelIdle='Drop your file or <span class="filepond--label-action"> Browse </span>' />
+            <FilePond 
+              files={file} 
+              allowMultiple={false} 
+              name="file" 
+              onupdatefiles={fileItems => setFile(fileItems)} 
+              server={{
+                url: 'https://ai-textbook-server.onrender.com',
+                process: {
+                  url: '/upload',
+                  method: 'POST',
+                  onload: (response) => {
+                    const data = JSON.parse(response);
+                    if (data.text) {
+                      setProcessedText(data.text);
+                      generateCards();
+                    } else {
+                      alert("Error processing file. Please try again.");
+                    }
+                  },
+                  onerror: (response) => {
+                    alert("Error uploading file. Please try again.");
+                    console.error('Upload error:', response);
+                  }
+                }
+              }}
+              onprocessfiles={() => {}} 
+              acceptedFileTypes={['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain']} 
+              labelIdle='Drop your file or <span class="filepond--label-action"> Browse </span>' 
+            />
           </motion.div>
         </div>}
       </AnimatePresence>
