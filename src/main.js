@@ -124,7 +124,7 @@ function App() {
   function generateCards() {
     doneLoadingText(true);
     setLoadingInference(true);
-    fetch('/generate_cards', { method: "POST" })
+    fetch('https://ai-textbook-server.onrender.com/generate_cards', { method: "POST" })
       .then(res => res.json())
       .then(data => {
         if ("error" in data) { setLoadingInference(false); alert("An error occurred. Please try again."); window.location.reload(); }
@@ -134,7 +134,7 @@ function App() {
 
   function generateQuiz() {
     setLoadingInference(true);
-    fetch('/generate_quiz', { method: "POST" })
+    fetch('https://ai-textbook-server.onrender.com/generate_quiz', { method: "POST" })
       .then(res => res.json())
       .then(data => {
         if ("error" in data) { setLoadingInference(false); alert("An error occurred. Please try again."); window.location.reload(); }
@@ -147,7 +147,7 @@ function App() {
   // Send questions to backend and create PDF document of quiz
   function exportQuiz() {
 
-    fetch('/export', {
+    fetch('https://ai-textbook-server.onrender.com/export', {
       method: "POST",
       body: JSON.stringify(questions),
       headers: { 'Content-type': 'application/json' }
