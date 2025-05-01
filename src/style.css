@@ -1,0 +1,357 @@
+@font-face {
+    font-family: "Britanica Regular";
+    src: url("../public/britanica-regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Gidole Regular";
+    src: url("../public/Gidole-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Helvetica Neue Thin";
+    src: url("../public/HelveticaNeueThin.otf");
+}
+
+html {
+    background-color: #18181b;
+    color: white;
+}
+
+#title {
+    text-align: center;
+    margin-top: 150px;
+}
+
+#start-page {
+    position: fixed;
+    width: 100%;
+    height: auto;
+}
+
+.subtitle {
+    font-family: "Helvetica Neue Thin";
+    font-size: 36px;
+    color: rgb(200, 200, 200);
+    text-align: center;
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-bottom: 50px;
+}
+
+#title-letter {
+    font-family: "Britanica Regular";
+    font-size: 90px;
+}
+
+#input {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.filepond--root {
+    font-family: "Helvetica Neue Thin";
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 400px;
+}
+
+#overlay {
+    position: fixed;
+    width: 100%;
+    height: auto;
+    z-index: 100;
+}
+
+#loading {
+    position: fixed;
+    top: 50vh;
+    left: 50vw;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+#overlay-back {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+/* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+.flip-card,
+.card {
+    height: 100%;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+}
+
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card:active .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card:hover {
+    cursor: pointer;
+}
+
+/* Position the front and back side */
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    /* Safari */
+    backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+.flip-card-front {
+    border-radius: 15px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #303048;
+    color: rgb(200, 200, 200);
+}
+
+/* Style the back side */
+.flip-card-back {
+    border-radius: 15px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #252536;
+    color: rgb(200, 200, 200);
+
+    transform: rotateY(180deg);
+}
+
+#concept,
+#quiz-card-text,
+#definition {
+    font-family: "Gidole Regular";
+    width: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#concept {
+    font-size: 100px;
+}
+
+#quiz-card-text {
+    width: 100%;
+    margin-top: 10px;
+    font-size: 90px;
+    color: white;
+}
+
+#definition {
+    font-size: 48px;
+}
+
+.swiper {
+    position: relative;
+    margin-top: 75px;
+    width: 1000px;
+    height: 600px;
+}
+
+.swiper-slide {
+    border-radius: 15px;
+}
+
+.swiper-button-next {
+    transform: translateX(200px);
+}
+
+.swiper-button-prev {
+    transform: translateX(-200px);
+}
+
+.swiper-slide:last-child {
+    background-color: #303048;
+}
+
+#make-quiz {
+    margin-top: 40px;
+    width: 300px;
+    transition: transform .2s;
+    /* Animation */
+}
+
+#make-quiz:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.radio-input {
+    margin: 0;
+    visibility: hidden;
+    position: relative;
+}
+
+.radio-input:checked+span {
+    border: 4px solid #009dff;
+}
+.radio-input:checked+span:after {
+    opacity: 1;
+}
+
+.custom-radio {
+    left: -8px;
+    top: 6px;
+    cursor: pointer;
+    width: 34px;
+    height: 34px;
+    border: 4px solid #9a9a9a;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+}
+
+/* for inner filled circle */
+.custom-radio::after {
+    content: '';
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.2s;
+    background: #009dff;
+}
+
+.radio-input:disabled+span {
+    border: 4px solid #9a9a9a;
+}
+.radio-input:checked+.radio-input:disabled+span:after {
+    opacity: 1;
+}
+
+.radio-input:disabled+.custom-radio::after{
+    background: #9a9a9a;
+    transition: opacity 0.2s;
+}
+
+.question-container, #choices {
+    font-family: "Gidole Regular";
+    color: rgb(200, 200, 200);
+    margin: 40px 0 0 40px;
+    width: 90%;
+}
+
+.question-number {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+#question {
+    font-size: 48px;
+}
+
+#choices {
+    margin-top: 50px;
+    font-size: 36px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 60px;
+}
+
+.answer{
+  margin-left: 40px;
+}
+
+
+#submit, #next {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 60px;
+
+}
+
+label {
+    cursor: pointer;
+}
+
+.label {
+    position: absolute;
+    width: 80%;
+    margin-top: -45px;
+    margin-left: 70px;
+}
+
+button {
+    cursor: pointer;
+    background-color: #04AA6D; /* Green */
+    border: none;
+    color: white;
+    padding: 32px 64px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-family: "Gidole Regular";
+    font-size: 32px;
+    border-radius: 16px;
+    transition: background-color 0.5s ease, transform 0.1s ease;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+button:disabled {
+    cursor: default;
+    background-color: #9a9a9a;
+}
+
+.end, .end-score{
+    text-align: center;
+    font-family: "Britanica Regular";
+    font-size: 48px;
+}
+
+.end-score {
+    font-size: 70px;
+}
+
+.congrats {
+    margin-top: -10px;
+    font-size: 100px;
+}
+
+.end-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 30px;
+}
+
+.boom {
+    z-index: 1000;
+}
