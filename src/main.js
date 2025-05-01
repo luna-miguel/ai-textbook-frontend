@@ -62,6 +62,12 @@ function App() {
   };
 
   useEffect(() => {
+    if (processedText) {
+      generateCards();
+    }
+  }, [processedText]);
+
+  useEffect(() => {
     if (cards === undefined) { return }
     const arr = cards.all.map(c => ({ concept: c.concept, definition: c.definition }));
     setCardArray(arr);
@@ -270,8 +276,7 @@ function App() {
                     const data = JSON.parse(response);
                     if (data.text) {
                       setProcessedText(data.text);
-                      console.log(processedText)
-                      generateCards();
+                      console.log(processedText);
                     } else {
                       alert("Error processing file. Please try again.");
                     }
