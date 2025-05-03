@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { FilePond, registerPlugin } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 import { BarLoader } from "react-spinners";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, EffectCards } from 'swiper/modules';
@@ -17,6 +18,7 @@ import Confetti from 'react-confetti'
 import ConfettiBoom from 'react-confetti-boom';
 
 registerPlugin(FilePondPluginFileValidateType);
+registerPlugin(FilePondPluginFileValidateSize);
 
 function App() {
   const { width, height } = useWindowSize()
@@ -290,6 +292,9 @@ function App() {
               onprocessfiles={() => {}} 
               acceptedFileTypes={['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain']} 
               labelIdle='Drop your file or <span class="filepond--label-action"> Browse </span>' 
+              maxFileSize='5MB'
+              labelMaxFileSizeExceeded="File is too large"
+              labelMaxFileSize="Maximum file size is 5 MB"
             />
           </motion.div>
         </div>}
