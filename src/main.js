@@ -292,9 +292,9 @@ function App() {
               onprocessfiles={() => {}} 
               acceptedFileTypes={['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain']} 
               labelIdle='Drop your file or <span class="filepond--label-action"> Browse </span>' 
-              maxFileSize='5MB'
+              maxFileSize='1MB'
               labelMaxFileSizeExceeded="File is too large"
-              labelMaxFileSize="Maximum file size is 5 MB"
+              labelMaxFileSize="Maximum file size is 1 MB"
             />
           </motion.div>
         </div>}
