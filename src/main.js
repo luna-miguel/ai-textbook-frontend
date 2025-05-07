@@ -27,7 +27,14 @@ function App() {
     const isDisabled = choicesDisabled || questionFeedback !== null;
     
     return (
-      <label htmlFor={id} className="radio-label" style={{ opacity: isDisabled ? 0.7 : 1 }}>
+      <label 
+        htmlFor={id} 
+        className="radio-label" 
+        style={{ 
+          opacity: isDisabled ? 0.7 : 1,
+          color: isDisabled && checked ? 'inherit' : 'rgb(200, 200, 200)'
+        }}
+      >
         <input
           className="radio-input"
           type="radio"
@@ -232,10 +239,14 @@ function App() {
 
     const correctIndex = q[1].indexOf(q[0].correct_answer);
 
-    // Force disable all radio buttons immediately
+    // Force disable all radio buttons immediately while maintaining selection
     const radios = document.getElementsByName("question");
     Array.from(radios).forEach(radio => {
       radio.disabled = true;
+      // Maintain the visual state of the selected radio
+      if (radio.checked) {
+        radio.parentElement.style.color = 'inherit';
+      }
     });
 
     if (selectedAnswer === correctIndex) {
