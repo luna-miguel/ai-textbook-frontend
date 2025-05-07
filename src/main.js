@@ -33,6 +33,7 @@ function App() {
         onChange={onChange}
         checked={checked}
         disabled={choicesDisabled}
+        style={{ pointerEvents: choicesDisabled ? 'none' : 'auto' }}
       />
       <span className="custom-radio" />
       {text}
@@ -215,17 +216,12 @@ function App() {
   function checkAnswer(q) {
     if (selectedAnswer === null) return;
 
+    // Set disabled state first
     setChoicesDisabled(true);
-    setSelectedAnswer(selectedAnswer); // freeze answer
+    setSelectedAnswer(selectedAnswer);
     document.getElementById("submit").style.display = "none";
 
     const correctIndex = q[1].indexOf(q[0].correct_answer);
-
-    // Disable all radio buttons
-    const radios = document.getElementsByName("question");
-    radios.forEach((r) => {
-      r.disabled = true;
-    });
 
     if (selectedAnswer === correctIndex) {
       setScore(prev => prev + 1);
