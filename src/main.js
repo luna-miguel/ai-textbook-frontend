@@ -46,17 +46,10 @@ function App() {
           disabled={isDisabled}
           style={{ 
             pointerEvents: isDisabled ? 'none' : 'auto',
-            cursor: isDisabled ? 'not-allowed' : 'pointer',
-            opacity: isDisabled && checked ? 1 : 0.7
+            cursor: isDisabled ? 'not-allowed' : 'pointer'
           }}
         />
-        <span 
-          className="custom-radio" 
-          style={{
-            opacity: isDisabled && checked ? 1 : 0.7,
-            backgroundColor: isDisabled && checked ? '#7fff7f' : 'transparent'
-          }}
-        />
+        <span className="custom-radio" />
         {text}
       </label>
     );
@@ -250,15 +243,17 @@ function App() {
     const radios = document.getElementsByName("question");
     Array.from(radios).forEach(radio => {
       radio.disabled = true;
-      // Maintain the visual state of the selected radio
+      // Ensure the checked state is preserved
       if (radio.checked) {
-        radio.parentElement.style.color = 'inherit';
+        radio.setAttribute('data-checked', 'true');
       }
     });
 
     if (selectedAnswer === correctIndex) {
       setScore(prev => prev + 1);
       setQuestionFeedback('correct');
+      // Ensure the selected radio stays checked
+      document.getElementById(`choice-${selectedAnswer}`).checked = true;
     } else {
       setQuestionFeedback('incorrect');
       document.getElementById(`label-${selectedAnswer}`).style.color = "#ff7373";
