@@ -247,11 +247,18 @@ html {
 .radio-input:disabled+span {
     border: 4px solid #9a9a9a;
 }
-.radio-input:checked+.radio-input:disabled+span:after {
-    opacity: 1;
+
+/* Fix the selector for checked and disabled state */
+.radio-input:checked:disabled+span {
+    border: 4px solid #009dff;
 }
 
-.radio-input:disabled+.custom-radio::after{
+.radio-input:checked:disabled+span:after {
+    opacity: 1;
+    background: #009dff;
+}
+
+.radio-input:disabled+.custom-radio::after {
     background: #9a9a9a;
     transition: opacity 0.2s;
 }
