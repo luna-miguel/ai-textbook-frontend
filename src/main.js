@@ -230,17 +230,8 @@ function App() {
   function checkAnswer(q) {
     if (selectedAnswer === null) return;
 
-    // Immediately disable all interactions but maintain selection
-    setChoicesDisabled(true);
-    setSelectedValue(true);
-    document.getElementById("submit").style.display = "none";
-
+    // First set the feedback and score
     const correctIndex = q[1].indexOf(q[0].correct_answer);
-
-    // Ensure the selected radio stays checked
-    if (selectedRef.current) {
-      selectedRef.current.checked = true;
-    }
 
     if (selectedAnswer === correctIndex) {
       setScore(prev => prev + 1);
@@ -251,7 +242,15 @@ function App() {
     }
     document.getElementById(`label-${correctIndex}`).style.color = "#7fff7f";
 
+    // Hide submit button and show next button
+    document.getElementById("submit").style.display = "none";
     document.getElementById("next").style.display = "block";
+
+    // Add a small delay before disabling the radio buttons
+    setTimeout(() => {
+      setChoicesDisabled(true);
+      setSelectedValue(true);
+    }, 100);
   }
 
   return (
