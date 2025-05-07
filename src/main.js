@@ -46,10 +46,17 @@ function App() {
           disabled={isDisabled}
           style={{ 
             pointerEvents: isDisabled ? 'none' : 'auto',
-            cursor: isDisabled ? 'not-allowed' : 'pointer'
+            cursor: isDisabled ? 'not-allowed' : 'pointer',
+            opacity: isDisabled && checked ? 1 : 0.7
           }}
         />
-        <span className="custom-radio" />
+        <span 
+          className="custom-radio" 
+          style={{
+            opacity: isDisabled && checked ? 1 : 0.7,
+            backgroundColor: isDisabled && checked ? '#7fff7f' : 'transparent'
+          }}
+        />
         {text}
       </label>
     );
