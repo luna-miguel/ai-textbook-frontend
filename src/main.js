@@ -23,7 +23,7 @@ registerPlugin(FilePondPluginFileValidateSize);
 function App() {
   const { width, height } = useWindowSize()
   const RadioButton = ({ name, id, value, onChange, checked, text }) => (
-    <label htmlFor={id} className="radio-label">
+    <label htmlFor={id} className="radio-label" style={{ opacity: choicesDisabled ? 0.7 : 1 }}>
       <input
         className="radio-input"
         type="radio"
@@ -33,7 +33,10 @@ function App() {
         onChange={onChange}
         checked={checked}
         disabled={choicesDisabled}
-        style={{ pointerEvents: choicesDisabled ? 'none' : 'auto' }}
+        style={{ 
+          pointerEvents: choicesDisabled ? 'none' : 'auto',
+          cursor: choicesDisabled ? 'not-allowed' : 'pointer'
+        }}
       />
       <span className="custom-radio" />
       {text}
@@ -97,6 +100,7 @@ function App() {
     setChoicesDisabled(false);
     setSelectedAnswer(null);
     setSelectedValue(true);
+    setQuestionFeedback(null);
     const question = document.getElementById("question");
     if (question) {
       question.style.color = "white";
@@ -109,7 +113,6 @@ function App() {
       r.disabled = false;
       document.getElementById(`label-${i}`).style.color = "rgb(200, 200, 200)";
     });
-
   }, [questions, currentQuestion, mode]);
 
   useEffect(() => {
@@ -216,8 +219,9 @@ function App() {
   function checkAnswer(q) {
     if (selectedAnswer === null) return;
 
-    // Set disabled state first
+    // Immediately disable all interactions
     setChoicesDisabled(true);
+    setSelectedValue(true);
     setSelectedAnswer(selectedAnswer);
     document.getElementById("submit").style.display = "none";
 
