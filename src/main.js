@@ -28,24 +28,24 @@ function App() {
     
     return (
       <label htmlFor={id} className="radio-label" style={{ opacity: isDisabled ? 0.7 : 1 }}>
-      <input
-        className="radio-input"
-        type="radio"
-        name={name}
-        id={id}
-        value={value}
-        onChange={onChange}
-        checked={checked}
+        <input
+          className="radio-input"
+          type="radio"
+          name={name}
+          id={id}
+          value={value}
+          onChange={onChange}
+          checked={checked}
           disabled={isDisabled}
           style={{ 
             pointerEvents: isDisabled ? 'none' : 'auto',
             cursor: isDisabled ? 'not-allowed' : 'pointer'
           }}
-      />
-      <span className="custom-radio" />
-      {text}
-    </label>
-  );
+        />
+        <span className="custom-radio" />
+        {text}
+      </label>
+    );
   };
 
   const [loadingInference, setLoadingInference] = useState(false);
@@ -230,16 +230,6 @@ function App() {
     document.getElementById("submit").style.display = "none";
 
     const correctIndex = q[1].indexOf(q[0].correct_answer);
-
-    // Force disable all radio buttons immediately while maintaining selection
-    const radios = document.getElementsByName("question");
-    Array.from(radios).forEach(radio => {
-      radio.disabled = true;
-      // Ensure the selected radio stays checked
-      if (radio.value === q[1][selectedAnswer]) {
-        radio.checked = true;
-      }
-    });
 
     if (selectedAnswer === correctIndex) {
       setScore(prev => prev + 1);
