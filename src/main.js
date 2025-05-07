@@ -221,6 +221,12 @@ function App() {
 
     const correctIndex = q[1].indexOf(q[0].correct_answer);
 
+    // Disable all radio buttons
+    const radios = document.getElementsByName("question");
+    radios.forEach((r) => {
+      r.disabled = true;
+    });
+
     if (selectedAnswer === correctIndex) {
       setScore(prev => prev + 1);
       setQuestionFeedback('correct');
