@@ -48,8 +48,15 @@ function App() {
             pointerEvents: isDisabled ? 'none' : 'auto',
             cursor: isDisabled ? 'not-allowed' : 'pointer'
           }}
+          data-checked={checked ? 'true' : 'false'}
         />
-        <span className="custom-radio" />
+        <span 
+          className="custom-radio" 
+          style={{
+            borderColor: checked ? '#9a9a9a' : '#9a9a9a',
+            backgroundColor: checked ? '#9a9a9a' : 'transparent'
+          }}
+        />
         {text}
       </label>
     );
