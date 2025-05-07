@@ -22,26 +22,31 @@ registerPlugin(FilePondPluginFileValidateSize);
 
 function App() {
   const { width, height } = useWindowSize()
-  const RadioButton = ({ name, id, value, onChange, checked, text }) => (
-    <label htmlFor={id} className="radio-label" style={{ opacity: choicesDisabled ? 0.7 : 1 }}>
-      <input
-        className="radio-input"
-        type="radio"
-        name={name}
-        id={id}
-        value={value}
-        onChange={onChange}
-        checked={checked}
-        disabled={choicesDisabled}
-        style={{ 
-          pointerEvents: choicesDisabled ? 'none' : 'auto',
-          cursor: choicesDisabled ? 'not-allowed' : 'pointer'
-        }}
-      />
-      <span className="custom-radio" />
-      {text}
-    </label>
-  );
+  const RadioButton = ({ name, id, value, onChange, checked, text }) => {
+    // Force disable if choicesDisabled is true
+    const isDisabled = choicesDisabled || questionFeedback !== null;
+    
+    return (
+      <label htmlFor={id} className="radio-label" style={{ opacity: isDisabled ? 0.7 : 1 }}>
+        <input
+          className="radio-input"
+          type="radio"
+          name={name}
+          id={id}
+          value={value}
+          onChange={onChange}
+          checked={checked}
+          disabled={isDisabled}
+          style={{ 
+            pointerEvents: isDisabled ? 'none' : 'auto',
+            cursor: isDisabled ? 'not-allowed' : 'pointer'
+          }}
+        />
+        <span className="custom-radio" />
+        {text}
+      </label>
+    );
+  };
 
   const [loadingInference, setLoadingInference] = useState(false);
   const [file, setFile] = useState();
@@ -226,6 +231,12 @@ function App() {
     document.getElementById("submit").style.display = "none";
 
     const correctIndex = q[1].indexOf(q[0].correct_answer);
+
+    // Force disable all radio buttons immediately
+    const radios = document.getElementsByName("question");
+    Array.from(radios).forEach(radio => {
+      radio.disabled = true;
+    });
 
     if (selectedAnswer === correctIndex) {
       setScore(prev => prev + 1);
