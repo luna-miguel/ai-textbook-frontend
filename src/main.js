@@ -27,39 +27,25 @@ function App() {
     const isDisabled = choicesDisabled || questionFeedback !== null;
     
     return (
-      <label 
-        htmlFor={id} 
-        className="radio-label" 
-        style={{ 
-          opacity: isDisabled ? 0.7 : 1,
-          color: isDisabled && checked ? 'inherit' : 'rgb(200, 200, 200)'
-        }}
-      >
-        <input
-          className="radio-input"
-          type="radio"
-          name={name}
-          id={id}
-          value={value}
-          onChange={onChange}
-          checked={checked}
+      <label htmlFor={id} className="radio-label" style={{ opacity: isDisabled ? 0.7 : 1 }}>
+      <input
+        className="radio-input"
+        type="radio"
+        name={name}
+        id={id}
+        value={value}
+        onChange={onChange}
+        checked={checked}
           disabled={isDisabled}
           style={{ 
             pointerEvents: isDisabled ? 'none' : 'auto',
             cursor: isDisabled ? 'not-allowed' : 'pointer'
           }}
-          data-checked={checked ? 'true' : 'false'}
-        />
-        <span 
-          className="custom-radio" 
-          style={{
-            borderColor: checked ? '#9a9a9a' : '#9a9a9a',
-            backgroundColor: checked ? '#9a9a9a' : 'transparent'
-          }}
-        />
-        {text}
-      </label>
-    );
+      />
+      <span className="custom-radio" />
+      {text}
+    </label>
+  );
   };
 
   const [loadingInference, setLoadingInference] = useState(false);
@@ -238,10 +224,9 @@ function App() {
   function checkAnswer(q) {
     if (selectedAnswer === null) return;
 
-    // Immediately disable all interactions
+    // Immediately disable all interactions but maintain selection
     setChoicesDisabled(true);
     setSelectedValue(true);
-    setSelectedAnswer(selectedAnswer);
     document.getElementById("submit").style.display = "none";
 
     const correctIndex = q[1].indexOf(q[0].correct_answer);
@@ -250,17 +235,15 @@ function App() {
     const radios = document.getElementsByName("question");
     Array.from(radios).forEach(radio => {
       radio.disabled = true;
-      // Ensure the checked state is preserved
-      if (radio.checked) {
-        radio.setAttribute('data-checked', 'true');
+      // Ensure the selected radio stays checked
+      if (radio.value === q[1][selectedAnswer]) {
+        radio.checked = true;
       }
     });
 
     if (selectedAnswer === correctIndex) {
       setScore(prev => prev + 1);
       setQuestionFeedback('correct');
-      // Ensure the selected radio stays checked
-      document.getElementById(`choice-${selectedAnswer}`).checked = true;
     } else {
       setQuestionFeedback('incorrect');
       document.getElementById(`label-${selectedAnswer}`).style.color = "#ff7373";
