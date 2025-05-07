@@ -22,6 +22,8 @@ registerPlugin(FilePondPluginFileValidateSize);
 
 function App() {
   const { width, height } = useWindowSize()
+  const selectedRef = React.useRef(null);
+
   const RadioButton = ({ name, id, value, onChange, checked, text }) => {
     // Force disable if choicesDisabled is true
     const isDisabled = choicesDisabled || questionFeedback !== null;
@@ -34,7 +36,10 @@ function App() {
           name={name}
           id={id}
           value={value}
-          onChange={onChange}
+          onChange={(e) => {
+            onChange(e);
+            selectedRef.current = e.target;
+          }}
           checked={checked}
           disabled={isDisabled}
           style={{ 
@@ -102,6 +107,7 @@ function App() {
     if (questions === undefined || mode !== 1 || currentQuestion >= questions.length) {
       return;
     }
+    selectedRef.current = null;
     setChoicesDisabled(false);
     setSelectedAnswer(null);
     setSelectedValue(true);
@@ -230,6 +236,11 @@ function App() {
     document.getElementById("submit").style.display = "none";
 
     const correctIndex = q[1].indexOf(q[0].correct_answer);
+
+    // Ensure the selected radio stays checked
+    if (selectedRef.current) {
+      selectedRef.current.checked = true;
+    }
 
     if (selectedAnswer === correctIndex) {
       setScore(prev => prev + 1);
